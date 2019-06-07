@@ -1,3 +1,6 @@
+// This is the main program for Project 1
+//   Guess the number
+//      Code author: Denis Poirier, BCA Sum2019
 const readline = require('readline');
 const rl = readline.createInterface(process.stdin, process.stdout);
 
