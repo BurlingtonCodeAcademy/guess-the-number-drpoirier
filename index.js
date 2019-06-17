@@ -18,36 +18,41 @@ function ask(questionText) {
   });
 }
 
-// starts the pgm - 
+
 start();   
 
-// function starting the pgm
+
 async function start() {
   startGameSetup();
-  // hard coding to min & max to begin with 
+  // hard coding to min & max to begin with ; later these will be changed as user inputs for what they want
     let min=1;    
     let max=100;  
     range = ((max - min)+1);  
 
     console.log("Please think of a number between " + min + " and " + max + " (inclusive), in this " + range + " number range.");
     let secretNumber = await ask("What is your secret number?\nThis Javascript (JS) program (pgm) won't peek...\n");
-    console.log('You entered: ' + secretNumber);  
+    console.log('FYI, you entered: ' + secretNumber + ' (Again, this will be kept secret until the end!)'); 
+    if ((secretNumber >= min) && (secretNumber <= max)) {  
+    } else { 
+        cheatMsgRangeErr();
+    }  
   
     let pgmTries = 1;
     let cpuGuessNum = getRandomIntInclusive(min, max);
 
-    console.log('(This JS pgm randomly guesses only once) Is it... ' + cpuGuessNum);   
+    console.log('(This JS pgm currently randomly guesses only once) Is it... ' + cpuGuessNum);   
     let userRespYorN = await ask('? ');
   // in case user used lower case - 
     let userRespYorNUC = userRespYorN.toUpperCase();  
     
   // if correctAnswer();  
     if (userRespYorNUC === 'Y') {
-    console.log('You stated that this was the correct number, Yea!');
+    console.log('You stated that this was the correct number, Yea!');  // game exits
+    process.exit();
   } else if (userRespYorNUC == 'N') {
     console.log('You stated it was not correct, or ' + userRespYorNUC + ' , Sorry.');
   } else {
-    cheatMsg ();
+    cheatMsg1();
   }
 
     console.log('The pgm has tried: ' + pgmTries + ' times.');
@@ -73,11 +78,11 @@ async function start() {
 
      // else needs to go to end of pgm after - 
    } else {
-     CheatMsg();
+     cheatMsgUnexpectedErr();
    }
 
 endGameMsg(); 
-  process.exit();
+process.exit();
 }
 
 // function source = MDN - The maximum (max) is inclusive and the minimum (min) is inclusive -
@@ -91,8 +96,8 @@ function getRandomIntInclusive(min, max) {
   console.log("Let's play a game where you (human user) make up a number and I (computer program) try to guess it.") 
  }
 
- // This is just a sample function with parms - it does nothing in this program - 
- function divisible(num, den) {
+ /* This is just a sample function with parms - it does nothing in this program - (yet)
+ function divisible(num, den) {   // placeholder for the narrowing down, loop, etc. to get to the #
   let divBy = num % den;
     if (divBy == 0) {
      result = 'true'
@@ -100,13 +105,30 @@ function getRandomIntInclusive(min, max) {
      result = 'false'
   }
     return result;
-  }
+  }     commenting out for now */
 
- function CheatMsg() {
-  console.log('Sorry, something did not compute! You entered: ' + userRespYorN + 'or we tried to compute: ' + userReponseYorNUC);
-  console.log('Sorry, something did not compute! You entered: ' + userRespHorL + 'or we tried to compute: ' + userReponseHorLUC);
+ function cheatMsg1() {
+  console.log('Sorry, something did not compute!');
+  endGameMsg();
+  process.exit();
  }
+
+ /* function cheatMsg2() {
+  console.log('Sorry, something did not compute! You entered: ' + userRespHorL + 'or we tried to compute: ' + userReponseHorLUC);
+ } */  // commenting out for now until more code is written
 
  function endGameMsg() {
   console.log("We're done then. Goodbye.");
  }
+
+ function cheatMsgRangeErr() {
+   console.log('Sorry, the program is exiting because the number was outside the given range expected, Sorry.');
+   endGameMsg();
+   process.exit();
+ }
+
+ function cheatMsgUnexpectedErr() {
+  console.log('Sorry, the program is exiting because the answer given was not what was expected, Sorry.');
+  endGameMsg();
+  process.exit();
+} 
